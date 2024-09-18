@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Matthew Dulchinos | Portfolio</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header>
+    <h1>Matthew Dulchinos</h1>
+    <nav>
+      <ul>
+        <li><a href="#about">About Me</a></li>
+        <li><a href="#projects">Projects</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <section id="about">
+    <h2>About Me</h2>
+    <div class="about-container">
+    <img src="images/profile.png" alt="Matthew Dulchinos" class="profile-pic">
+    <div class="about-text">
+      <h3>Bio</h3>
+      <p>I'm a software developer with a passion for AI, Machine Learning, and Microservice Architecture. I got my degree from Union College where I double majored in Computer Science and Theatre, but I have been coding ever since I was a little kid, from creating a text based adventure on my TI calculator, to attempting (somewhat) successfully to make an orange juice making machine.</p>
+      <h3>Experience</h3>
+      <p>Over the past few years, I have worked on various projects ranging from small-scale web applications to full-stack development. My work includes creating cutting edge machine learning programs, singlehandily refactoring existing infrastrucure to be more efficent & more reliable, and INSERT THIRD THING. I have experience in and can succeed at both creating microservice programs of the future, as well as understanding and improving older monolothic programs. </p>
+      <h3>Hobbies</h3>
+      <p>In my free time, I am a competitive pinball player, love gardening, and hanging out with my lovely cat Lucy.</p>
+    </div>
+  </div>
+  </section>
+
+  <section id="photo-collage">
+  <div class="collage-container">
+    <div class="collage-item">
+      <img src="images/gandalf.png" alt="Lord of the Rings">
+    </div>
+    <div class="collage-item">
+      <img src="images/cucumber.jpg" alt="gardening">
+    </div>
+    <div class="collage-item">
+      <img src="images/sitting.jpg" alt="Lucy">
+    </div>
+    <div class="collage-item">
+      <img src="images/hiking.jpg" alt="Hiking">
+    </div>
+    <div class="collage-item">
+      <img src="images/indy.png" alt="Indiana">
+    </div>
+  </div>
+</section>
+
+
+  <section id="projects">
+    <h2>Projects</h2>
+    <div class="project">
+      <h3>Code Lookup Tool</h3>
+      <p>This project is a basic API that you can use to look up descriptions of codes, search for codes based off key phrases, and ask chatGPT what a code means. Below I have two of the sample APIs which let you look up a specific code, and look up key phrases to find what codes relate to them. Check out my github for instructions on how to run locally, as well as the additional APIs.</p>
+      <a href="https://github.com/MatthewDulchinos/CMS">View on GitHub</a>
+    </div>
+    <body>
+   <!-- First search bar for searching by code -->
+  <section id="code-search">
+    <h4>Search Code (try "Q9982")</h4>
+    <form id="search-code-form">
+      <input type="text" id="code-input" placeholder="Enter code..." required>
+      <button type="submit">Search by Code</button>
+    </form>
+    <div id="code-results-container">
+      <div id="code-results"></div>
+    </div>
+  </section>
+
+  <!-- Second search bar for searching by description -->
+  <section id="description-search">
+    <h4>Search by Description (try "heart")</h4>
+    <form id="search-description-form">
+      <input type="text" id="description-input" placeholder="Enter description..." required>
+      <button type="submit">Search by Description</button>
+    </form>
+    <div id="description-results-container">
+      <div id="description-results"></div>
+    </div>
+  </section>
+
+  <script>
+    // First search: Fetch by code
+    document.getElementById('search-code-form').addEventListener('submit', function(event) {
+      event.preventDefault(); // Prevent form from submitting normally
+      
+      const code = document.getElementById('code-input').value; // Get the input value
+      const codeResultsDiv = document.getElementById('code-results');
+
+      // Clear previous results
+      codeResultsDiv.innerHTML = '';
+
+      // Make the API request to your Python backend
+      fetch(`http://127.0.0.1:5000/code/${code}`)
+        .then(response => {
+          if (!response.ok) {
+            throw new Error('Code not found');
+          }
+          return response.json();
+        })
+        .then(data => {
+          if (Array.isArray(data)) {
+            data.forEach(item => {
+              const resultItem = document.createElement('div');
+              resultItem.innerHTML = `<p><strong>Code:</strong> ${item.code}</p>
+                                      <p><strong>Description:</strong> ${item.description}</p>`;
+              codeResultsDiv.appendChild(resultItem);
+            });
+          }
+        })
+        .catch(error => {
+          codeResultsDiv.innerHTML = `<p>${error.message}</p>`;
+        });
+    });
+
+    // Second search: Fetch by description
+    document.getElementById('search-description-form').addEventListener('submit', function(event) {
+      event.preventDefault(); // Prevent form from submitting normally
+
+      const description = document.getElementById('description-input').value; // Get the input value
+      const descriptionResultsDiv = document.getElementById('description-results');
+
+      // Clear previous results
+      descriptionResultsDiv.innerHTML = '';
+
+      // Make the API request to your Python backend
+      fetch(`http://127.0.0.1:5000/search?phrase=${description}`)
+        .then(response => {
+          if (!response.ok) {
+            throw new Error('No codes found');
+          }
+          return response.json();
+        })
+        .then(data => {
+          if (Array.isArray(data)) {
+            data.forEach(item => {
+              const resultItem = document.createElement('div');
+              resultItem.innerHTML = `<p><strong>Code:</strong> ${item.code}</p>
+                                      <p><strong>Description:</strong> ${item.description}</p>`;
+              descriptionResultsDiv.appendChild(resultItem);
+            });
+          }
+        })
+        .catch(error => {
+          descriptionResultsDiv.innerHTML = `<p>${error.message}</p>`;
+        });
+    });
+  </script>
+</body>
+  <div class="project">
+      <h3>Boardgame Ranking Predictor</h3>
+      <p>This project was a silly idea to pratice my data science skills. The model makes predictions of a game's BoardGameGeek Rating based off of information like the number of players it's best at, and whether it was kickstarted or not.</p>
+
+      <p>Currently the model has a terrible accuracy, topping out at mid 60s. This could be potentially improved by using more information if found. Though to be honest, I think this would be a waste to pursue seriously. Board game ratings would not make too much sense to be tied to certain static traits like the minimum number of players who can play it.</p>
+      <a href="https://github.com/MatthewDulchinos/BoardGameMl">View on GitHub</a>
+    </div>
+
+    <div class="project">
+      <h3>Shakespeare Analyzer</h3>
+      <p>Brevity is the soul of wit, or is it? In this project I asked the question, "Are the smartest characters the most succinct?" I looked at look at character's average words per line, and found that there was seemingly no correlation between a character's inteligence, and a character's average words per line.</p>
+
+      <p>Take this <a href="https://raw.githubusercontent.com/MatthewDulchinos/ShakespeareAnalyzer/master/Images/MainCharacters.png">image</a> where Hamlet, argueably the smartest character in the play, speaks just about the same average words per line as the fool Polonius. Obviously there is a lot more that could be done for a more in depth analysis, which is briefed in my readme, but I think this is a fun indisciplinary project to get to do with Shakespeare's work</p>
+      <a href="https://github.com/MatthewDulchinos/BoardGameMl">View on GitHub</a>
+    </div>
+  </section>
+
+  <section id="contact">
+    <h2>Contact</h2>
+    <p>Email: <a href="mailto:mdulchinos@gmail.com">mdulchinos@gmail.com</a></p>
+    <p>Or reach out to me on LinkedIn: <a href="https://www.linkedin.com/in/matthew-dulchinos/">linkedin.com/in/matthew-dulchinos</a></p>
+  </section>
+
+  <footer>
+    <p>© 2024 Matthew Dulchinos</p>
+  </footer>
+</body>
+</html>

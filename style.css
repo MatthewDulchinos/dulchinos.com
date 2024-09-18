@@ -1,0 +1,166 @@
+body {
+  font-family: Arial, sans-serif;
+  line-height: 1.6;
+  margin: 0;
+  padding: 0;
+  background-color: #f4f4f4;
+}
+
+header {
+  background: #333;
+  color: #fff;
+  padding: 1rem;
+  text-align: center;
+}
+
+header nav ul {
+  list-style-type: none;
+}
+
+header nav ul li {
+  display: inline;
+  margin: 0 15px;
+}
+
+header nav ul li a {
+  color: white;
+  text-decoration: none;
+}
+
+section {
+  padding: 20px;
+}
+section#contact {
+  padding-bottom: 100px; /* Ensures the footer won't cover this section */
+}
+
+/* About Section */
+#about {
+  background-color: #fff;
+  padding: 40px 20px;
+}
+
+.about-container {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.profile-pic {
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+  margin-right: 20px;
+  object-fit: cover;
+}
+
+.about-text {
+  max-width: 1200px;
+}
+
+.about-text h3 {
+  margin-top: 20px;
+}
+
+ul {
+  list-style-type: disc;
+  padding-left: 20px;
+}
+
+.about-text p {
+  line-height: 1.8;
+}
+
+@media (max-width: 768px) {
+  .about-container {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .profile-pic {
+    margin: 0 auto 20px;
+  }
+}
+
+
+#photo-collage {
+  text-align: center;
+  margin: 40px 0;
+}
+
+#photo-collage h2 {
+  margin-bottom: 20px;
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.collage-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); /* Flexible grid */
+  gap: 15px; /* Space between the images */
+  justify-items: center;
+  padding: 20px;
+}
+
+.collage-item {
+  width: 100%; /* Ensure the width is flexible */
+  position: relative;
+  overflow: hidden;
+  border-radius: 10px; /* Optional: Round the corners of the images */
+  padding-top: 100%; /* Create a square container by setting height equal to width */
+}
+
+.collage-item img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* Ensures the image covers the square without stretching */
+  transition: transform 0.3s ease;
+}
+
+.collage-item img:hover {
+  transform: scale(1.1); /* Zoom-in effect on hover */
+}
+
+
+
+
+/* Styles for the scrollable results containers */
+#code-results-container,
+#description-results-container {
+  max-height: 300px;  /* Set the max height */
+  overflow-y: auto;   /* Enable vertical scrolling */
+  border: 1px solid #ccc; /* Optional: a border around the box */
+  padding: 10px;
+  margin-top: 10px;
+}
+
+/* Optional: Give a better experience with smooth scrolling */
+#code-results-container::-webkit-scrollbar,
+#description-results-container::-webkit-scrollbar {
+  width: 8px;
+}
+
+#code-results-container::-webkit-scrollbar-thumb,
+#description-results-container::-webkit-scrollbar-thumb {
+  background-color: #888; /* Customize scrollbar thumb color */
+  border-radius: 4px;
+}
+
+#code-results-container::-webkit-scrollbar-thumb:hover,
+#description-results-container::-webkit-scrollbar-thumb:hover {
+  background-color: #555; /* Thumb color on hover */
+}
+
+
+footer {
+  text-align: center;
+  background: #333;
+  color: #fff;
+  padding: 1rem;
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+}
